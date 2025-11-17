@@ -92,3 +92,16 @@ latexmkrc
 
 
 *040324.tex
+
+
+
+# --- Allow Figures and Tables folders and their contents ---
+!Figures/
+!Figures/**
+!Tables/
+!Tables/**
+
+!Figures/*.pdf
+!Figures/*.tex
+!Tables/*.pdf
+!Tables/*.tex
