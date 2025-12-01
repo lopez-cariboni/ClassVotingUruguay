@@ -28,6 +28,10 @@
 \usepackage[figuresright]{rotating}
 \usepackage{lscape}
 \usepackage{xurl}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows,intersections}
 
 % Hyperref
 \usepackage[colorlinks,
@@ -109,6 +113,185 @@ Santiago López-Cariboni\thanks{Universidad de la República }
 % --- your supplementary content starts here ---
 \section{Sampling and Data collection}
 \label{sec:sampling}
+
+
+
+\section{DAG Representation of Empirical Models}
+\label{sec:dag}
+
+Figure A1 presents a directed acyclic graph (DAG) that summarizes the structure of 
+Model~3. The outcome, incumbent vote choice, is placed on the right-hand side, with 
+all predictors positioned to the left. Solid arrows represent the direct effects 
+estimated in the logistic model, while dashed arrows indicate that these effects vary 
+across election years through interactions with year indicators. Income, ideology, 
+economic evaluations, and partisanship are treated as mutually correlated determinants 
+of vote choice; since the empirical model does not impose a causal ordering among 
+them, these associations are represented with undirected dashed arcs rather than with 
+directed causal arrows.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[
+    every node/.style={
+        draw, rectangle, rounded corners, align=center,
+        minimum width=3.8cm, minimum height=1.2cm,
+        font=\normalsize
+    },
+    arrow/.style={->, thick},
+    dashedarrow/.style={->, thick, dashed},
+    corr/.style={dashed, thick}
+]
+
+% ------------------ Node positions ------------------
+\node (income) at (0,4) {Income\\Quintile};
+\node (econ)   at (0,1.2) {Economic\\Evaluations};
+\node (ideo)   at (0,-1.6) {Ideology};
+\node (pid)    at (0,-4.4) {Incumbent\\Partisanship};
+
+\node (year) at (5,4) {Election\\Year};
+\node (vote) at (10,1.2) {Incumbent\\Vote};
+
+% ------------------ Paths to outcome ------------------
+\draw[arrow] (income) -- (vote);
+\draw[arrow] (econ) -- (vote);
+\draw[arrow] (ideo) -- (vote);
+\draw[arrow] (pid) -- (vote);
+
+% ------------------ Year modifies predictors ------------------
+\draw[dashedarrow] (year) -- (income);
+\draw[dashedarrow] (year) -- (econ);
+\draw[dashedarrow] (year) -- (ideo);
+\draw[dashedarrow] (year) -- (pid);
+
+% ------------------ Correlation arcs ------------------
+% Curved above the nodes (income ↔ econ)
+\draw[corr, bend left=35] (income) to (econ);
+% Curved further above (income ↔ ideo)
+\draw[corr, bend left=55] (income) to (ideo);
+% Curved even further above (income ↔ pid)
+\draw[corr, bend left=75] (income) to (pid);
+
+% Mid-level correlation arcs (econ ↔ ideo)
+\draw[corr, bend left=35] (econ) to (ideo);
+% Econ ↔ pid
+\draw[corr, bend left=55] (econ) to (pid);
+
+% Lower-level arcs (ideo ↔ pid)
+\draw[corr, bend left=35] (ideo) to (pid);
+
+\end{tikzpicture}
+
+\caption{Directed acyclic graph (DAG) summarizing the conceptual structure of Model~3. 
+Solid arrows represent direct predictors of incumbent vote. Dashed arrows indicate 
+year-specific effect modification. Curved dashed arrows represent endogenous 
+associations among predictors, routed to avoid overlapping variable labels.}
+\end{figure}\label{fig:OA-dag}
+
+
+
+\pagebreak
+\section{Logit Estimates Across Eight Elections (1989--2024).}
+\label{sec:appendix-tables}
+ This appendix reports the full logit models underlying the results presented in the main text. Table~\ref{tab:SM1} displays five model specifications that incorporate year-specific effects for the main determinants of incumbent support in Uruguay. Each model interacts the relevant predictors with election year, allowing the effects of class, economic evaluations, ideology, and incumbent partisanship to vary across the nine national elections observed between 1989 and 2024. To improve readability, we omit the coefficients for election-year fixed effects (i.e., the baseline year indicators). These fixed effects are summarized as “Year FE = YES” in the table footer. All interaction terms—such as Income Quintile~$k \times$ Year, Economic Evaluation~$\times$ Year, Ideology~$\times$ Year, and Incumbent PID~$\times$ Year—are fully reported, as they identify how the relationship between each predictor and incumbent vote shifts over time. Standard errors and significance levels follow the conventions used throughout the manuscript.
+
+\begin{centering}
+\input{Tables/SupplementaryMaterials/Table_S1.tex}
+\end{centering}
+
+\begin{centering}
+\input{Tables/SupplementaryMaterials/Table_S2.tex}
+\end{centering}
+
+
+
+
+
+\pagebreak
+\section{Economic Voting}
+\label{sec:appendix-econ}
+
+Economic voting refers to the extent to which citizens reward or punish incumbent governments based on their evaluation of the national economy. Table~\ref{tab:econ-voting} and Figure~\ref{fig:appendix-econ} summarize the evolution of the effect of positive sociotropic evaluations (\texttt{econgood}) across eight Uruguayan presidential elections. The left panel shows the estimated \emph{logit coefficients}, while the right panel translates these estimates into \emph{changes in predicted probability} of voting for the incumbent. Across most elections, the coefficient of sociotropric evaluations remains positive and statistically significant, indicating persistent electoral accountability. Voters consistently reward incumbents when they perceive the economy as performing well. The magnitude of economic voting increases sharply in 1994 and peaks in 2004---the first election following the 2002 economic crisis---consistent with theories suggesting that retrospective economic shocks amplify performance-based voting. In probability terms (right-hand panel), the change in predicted probability of voting for the incumbent ranges from roughly 8 percentage points in 1989 to 23--25 percentage points in 1994, 2019, and 2024. These results show that while economic voting varies across elections, it remains a substantively meaningful component of Uruguayan electoral behavior over the 35-year period. Even as partisan and class alignments evolve, economic evaluations continue to exert an independent and electorally consequential effect on vote choice.
+
+\begin{figure}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{cc}
+\includegraphics[width=0.4\textwidth]{Figures/logit_econ_voting.pdf} &
+\includegraphics[width=0.4\textwidth]{Figures/prob_econ_voting_delta.pdf} \\
+(a) Logit coefficients &
+(b) Change in predicted probability
+\end{tabular}
+\caption{Economic Voting Across Uruguayan Elections, 1989--2024}
+\label{fig:appendix-econ}
+\begin{tablenotes}
+\footnotesize
+\item \emph{Note:} The left panel plots the estimated logit coefficients for the effect of positive sociotropic evaluations of the economy on incumbent voting across eight elections. The right panel shows the implied change in predicted probability of voting for the incumbent when moving from from 0 to 1 (good and very good), holding other covariates at their sample means. Together, the figures illustrate both the statistical strength and the substantive magnitude of economic voting over time. Despite variation across elections, positive evaluations of the national economy consistently increase the likelihood of supporting the incumbent.
+\end{tablenotes}
+\end{threeparttable}
+\end{figure}
+
+
+
+
+\pagebreak
+\section{Class Voting}
+\label{sec:appendix-class}
+
+\subsection*{Voting for the Left}
+
+Figure~\ref{fig:probability_change_income_quintiles_left} plots the change in the predicted probability of supporting the Left party when moving from the highest-income quintile (Q5) to each lower-income quintile (Q1--Q4). This estimation isolates the extent to which income groups shifted their alignment toward (or away from) the Left across eight elections.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{Figures/figure_income_quintiles_left.pdf}
+\caption{Change in the predicted probability of voting for the Left when moving from
+the highest-income quintile (Q5) to each income quintile (Q1--Q4), across Uruguayan
+elections from 1989 to 2024. Shaded areas represent 95\% confidence intervals.}
+\label{fig:probability_change_income_quintiles_left}
+\end{figure}
+
+
+The pattern reveals the \emph{rise, consolidation, and weakening} of class voting in Uruguay. Prior to 2004, the association between income and support for the Left was weak and often indistinguishable from zero. The 2004 breakthrough election---in which the \emph{Frente Amplio} (FA) gained the presidency for the first time---marks a watershed: from 2009 onward, low-income groups (Q1 and Q2), and occasionally Q3, become significantly more supportive of the Left compared to the wealthy. This is consistent with a redistributive realignment following FA’s expansion of social policy and labor protections. By contrast, the right-wing victories of 2019 and 2024 coincide with a weakening of these income gradients: pro-left class alignment declines, though Q1 and Q2 remain consistently to the left of Q5. This suggests that while class voting did not disappear with the return of the traditional right, it softened relative to the peak alignment observed during FA incumbency.
+
+\subsection*{Voting for the Incumbent}
+
+To complement the analysis of left-vote choices, Figure~\ref{fig:appendix-class-incumbent} shows how income groups differ in their propensity to support the incumbent, regardless of whether the incumbent is left- or right-leaning. 
+
+
+\begin{figure}[htbp]
+\centering
+\begin{threeparttable}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.47\textwidth]{Figures/figure_logit_quintiles_incumbent.pdf} &
+\includegraphics[width=0.47\textwidth]{Figures/figure_income_quintiles_incumbent.pdf} \\
+(a) Logit coefficients (Q1--Q4 vs.\ Q5) &
+(b) Predicted probability differences ($\Delta P$)
+\end{tabular}
+
+\caption{Income-based differences in incumbent support across eight Uruguayan elections.}
+\label{fig:appendix-class-incumbent}
+
+\begin{tablenotes}
+\footnotesize
+\item \emph{Note:} Left panel displays logit coefficients for each income quintile relative to Q5 (richest). Right panel presents the associated change in predicted probability of supporting the incumbent. Positive values indicate greater incumbent support than Q5. Models include economic evaluations, ideology, and incumbent partisanship.
+\end{tablenotes}
+
+\end{threeparttable}
+\end{figure}
+
+The incumbent-vote patterns display a coherent political logic that parallels, yet sharpens, the left-vote trends.
+
+Before 2004 (traditional party incumbency): Low-income voters (Q1 and Q2) do not systematically support incumbents and often show slightly negative or null effects. Class voting is essentially absent.
+
+Following FA’s first victory in 2004, lower-income groups become \emph{consistently pro-incumbent}. In 2009 and 2014, both the logit coefficients and $\Delta P$ show that Q1 and Q2 voters are substantially more likely than Q5 to support the left-wing incumbent. This is the period of \emph{maximal class voting}: redistribution, targeted transfers, and economic inclusion policies appear to translate into electoral alignment among poorer voters. Q3 also shifts modestly in a pro-incumbent direction.
+
+After 2019--2024 (right-wing incumbency) with the return of the right in 2019, class voting becomes \emph{asymmetric}.  The poor (Q1--Q2), who strongly supported FA incumbents, no longer support right-wing incumbents; their estimated effects return to negative territory, indicating lower support for the new incumbents than for Q5. This asymmetric pattern---pro-left alignment but not pro-right alignment among poorer voters—suggests that class voting in Uruguay is driven not simply by incumbency, but by the distributive orientation of the incumbent party.
+
+Taken together, the evidence demonstrates a clear cycle: class voting is essentially absent under traditional-party rule from 1989 to 2004; it becomes strong and positive under sustained left-wing governance in 2009 and 2014; and it persists, though in attenuated form, after the right returns to power in 2019 and 2024, with poorer voters consistently refusing to support right-wing incumbents. This rise, consolidation, and partial decline of class voting underscores that Uruguay’s class cleavage is policy-driven, asymmetric, and historically contingent rather than a permanent structural feature. Redistribution under left incumbents aligned the poor with the Left, and this alignment endured even after partisan turnover.```
+
+
 
 
 \pagebreak

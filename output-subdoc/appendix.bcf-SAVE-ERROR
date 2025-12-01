@@ -4990,12 +4990,6 @@
   <!-- CITATION DATA -->
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
-    <bcf:datasource type="file" datatype="bibtex" glob="false">Auto.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">technology.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">Subjective.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">Risk.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">Alienation.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">Protest.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">tax.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">References.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">

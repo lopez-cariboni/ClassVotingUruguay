@@ -42,6 +42,8 @@ bookmarks=false,hypertexnames=true]{hyperref}
 \externaldocument{appendix}
 \usepackage{xurl}
 \usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
 \usetikzlibrary{arrows,intersections}
 \usepackage{csquotes}
 
@@ -182,74 +184,76 @@ Our second  argument considers the idea that economic voting and class voting in
 Following this argument, we hypothesize that leftist incumbents should be penalized if top income earners growth increase faster than the average, while right wing incumbents do not. On the contrary, leftist governments should be rewarded when low class voters growth rate is higher than the average. 
 
 
-\section*{Data and Methods} % (fold)
-   \label{sec:data_and_methods}
-We decided to start testing these arguments with the Uruguayan case. Uruguay is a good case  because before 2004, when center left Frente Amplio won the national election, no class cleavage was detected and economic voting prevailed as a powerful explanation to Uruguayans voting behavior.  Uruguayans take into account economic assessments while casting their vote, but there is no evidence of class voting (Luna 2002, Queirolo 2013). Political parties were founded as catch all parties (Gillespie 1986, González 1991), and remain like that till now (Lanzaro y Armas 2012). Frente Amplio emerged in 1971 as a coalition of left wing parties supported by young and urban voters, intellectuals, formal workers, and middle and middle-upper classes (Gillespie 1986). Partido Colorado also used to receive more votes from urban citizens, but older and less educated.  On the other side, Partido Nacional based its electoral support outside Montevideo, and mainly in rural areas (González 1991). 
+\section*{Data and Methods}
+\label{sec:data_and_methods}
 
-Despite Frente Amplio's foundation as an urban party, mostly based on the capital city, it has expanded its electoral bases to regions of the country that were previously conquered by Partido Nacional or Partido Colorado. In 1999, Frente Amplio gets the majority of votes in Montevideo, Canelones, Maldonado and Paysandú, regions of the country that were considered the most developed ones (also most populated, most urbanized and with higher economic and social development). This growing of Frente Amplio outside its traditional electoral bastion lead to the hypothesis of ``modern voting'' (Moreira 2000, Moreira 2005), which states that as long as the country become more modern, left of center parties should increase its share of the vote. Frente Amplio reached the Presidency in 2004 election and got the majority in eight regions: Montevideo, Canelones, Maldonado, Rocha, Salto, Paysandú, Soriano and Florida. Five years later, in 2009, the incumbent leftist party was reelected with the majority in eleven regions, and in 2014 was once again reappointed with the support of fourteen regions, this time the regions were not all the most developed ones. 
+We test our arguments using evidence from Uruguay, a theoretically valuable case for assessing the emergence of class-based voting. Prior to the victory of the center-left \emph{Frente Amplio} in 2004, research consistently concluded that class cleavages were weak or absent, whereas economic evaluations strongly shaped electoral behavior (Luna 2002; Queirolo 2013). Uruguay’s traditional parties, the \emph{Partido Colorado} and \emph{Partido Nacional}, historically operated as catch-all organizations (Gillespie 1986; González 1991), with their support structured around urban--rural, demographic, and partisan identities rather than socioeconomic position. The \emph{Frente Amplio}, founded in 1971, initially drew support from urban, educated, and middle-class voters but progressively expanded into regions and social segments previously dominated by the traditional parties (Moreira 2005).
 
-Frente Amplio reached the national government in 2004 with an outcome mandate, and it was able to capitalize the prevailing popular economic discontent with Partido Colorado and Partido Nacional . Till that presidential election there was no class voting. However, it is unknown whether the leftist government contributed to the transformation of electoral politics. Is the double reelection of Frente Amplio also a result of Uruguayans rewarding a good economic performance or a proof of class voting? Low-class voters, those with lower income and lesser education could be switching their vote from Partido Nacional and Partido Colorado to Frente Amplio after experiencing how the leftist party governs (Moreira 2010;  Bogliaccini and López-Cariboni, 2015). 
+The consolidation of left-wing governance after 2004 raises a central question for theories of democratic representation in Latin America: did the implementation of redistributive policies under the \emph{Frente Amplio} generate an observable class cleavage in voting behavior? In particular, did lower-income voters begin to support the left independently of economic conditions or partisan attachments? While prior work offers suggestive evidence (Moreira 2010; Bogliaccini and López-Cariboni 2015), a systematic assessment across multiple electoral cycles remains lacking. To address this gap, we assemble survey data from multiple election years: 1989 (Equipos Mori), 1994--2004 (CIFRA), 2009 and 2014 (AmericasBarometer), and 2024 from CIFRA’s publicly released electoral opinion pool.\footnote{The 2024 survey was collected and published by CIFRA as part of its national pre-electoral polling series.} Pooling these sources produces a harmonized repeated cross-section spanning 1989--2024. Key measures were recoded to ensure comparability across surveys.
+
+Our measure of economic voting relies on a standard sociotropic question asking respondents to evaluate the country’s current economic situation; answers of ``good'' or ``very good’’ are coded as favorable evaluations. Because income variables differ across surveys, we rely on three operationalizations of class: (1) continuous household income per capita; (2) income quintiles; and (3) terciles approximating lower-, middle-, and upper-class positions.\footnote{Income serves as our primary class indicator both for consistency with the class-biased economic voting literature (Bartels 2008) and because comparable occupational measures are unavailable across survey years.} Two additional predictors capture central mechanisms of voting behavior. First, ideological self-placement distinguishes voters who prioritize redistribution from those who favor market-oriented policies. Second, identification with the incumbent party accounts for the strong partisan anchoring common in presidential systems. To assess how the relevance of these mechanisms evolves over time, we interact each predictor with election-year indicators, effectively estimating separate slopes for each election.
+
+A central feature of our empirical strategy is that we fit \emph{two parallel logistic regression models}, which share the same predictors and interaction structure but differ in their dependent variables. In the first model, the outcome is \emph{incumbent vote}, the conventional measure in studies of economic voting. This specification makes it straightforward to assess how sociotropic evaluations translate into electoral rewards and punishments. In the second model, the outcome is \emph{left vote}, which allows us to trace the emergence of class alignments with the \emph{Frente Amplio} independently of whether the left was the incumbent in a given election. Although the outcomes differ, the models are analytically equivalent: each recovers the conditional association between income, economic perceptions, ideology, and partisan identification and support for the party of interest in each election year. Presenting both outcomes simply highlights different theoretical dimensions---economic accountability in the incumbent-vote model and class realignment in the left-vote model.
+
+Formally, for the incumbent-vote specification, we estimate:
+\begin{align*}
+\Pr(\text{Incumbent Vote}_i = 1)
+&= \text{logit}^{-1} \Bigg[
+      \sum_{k=1}^{4} \sum_{t} \beta_{kt}\,
+        (Q_{ki} \times \text{Year}_{it})
+\\ &\qquad
+    + \sum_{t} \alpha_{t}\,
+        (E_i \times \text{Year}_{it})
+\\ &\qquad
+    + \sum_{t} \gamma_{t}\,
+        (I_i \times \text{Year}_{it})
+\\ &\qquad
+    + \sum_{t} \delta_{t}\,
+        (P_i \times \text{Year}_{it})
+\Bigg],
+\end{align*}
+
+where $Q_{ki}$ is an indicator for income quintile $k$, $E_i$ denotes sociotropic economic evaluations, $I_i$ represents ideological self-placement, $P_i$ identifies partisanship toward the incumbent party, and $\text{Year}_{it}$ is a dummy for election year $t$. The left-vote model shares this exact structure with the dependent variable replaced by $\Pr(\text{Left Vote}_i = 1)$.
+
+This flexible interaction structure allows the effects of economic evaluations, ideology, partisanship, and class to vary freely across elections, avoiding assumptions of temporal homogeneity. Importantly, the coefficients $\beta_{kt}$ identify the \emph{partial association between income group membership and support for the party of interest in each election year}, net of economic perceptions, ideological orientation, and partisan identification. Statistically significant quintile coefficients therefore constitute evidence of class voting that cannot be attributed to the dominant explanatory frameworks in the literature.
 
 
-To test our arguments we use survey data collected close to the national elections of 1989, 1994, 1999, 2004, 2009, and 2014.\footnote{For 1989 survey data comes from Equipos Mori; for 1994 until 2004 data comes from CIFRA, and for 2009 and 2014 we use data from AmericasBarometer (LAPOP).} Our first empirical approach consists of pooling the data and estimating the amount of economic voting and class voting over time, i.e. for every election since 1989 until 2014. Thus, we estimate a number of different probit models where both economic and class voting are estimated by each election year through the specification of simple interaction terms.
-
-Our variable capturing economic vote is based on a standard question about economic perceptions. The only repeated question we have for all samples refers to ``sociotropic'' perceptions, namely, it asks about the perception of the state of the overall current economy.\footnote{There is a lot of evidence indicating that sociotropic evaluations are the most influential of all the ways to capture economic voting, not only in developed countries (Kinder 1998), also in Latin America (Lewis-Beck and Ratto 2013).} We code favorable perceptions of the shape of the economy whenever individuals report that current economy is ``good'' or ``very good''. Because our measures of self-reported income are problematic we report different operationalizations of class-voting. First, we create  a per capita income variable dividing the reported household income by the number of households members. The second variable we use to estimate class-voting results from dividing the sample in income quintiles and creating dummy variables indicating the income group for each individual in the sample. The third strategy is based on assuming three classes of the same size.\footnote{The reasons to measure class using income as the indicator is twofold. First, because in order to test Bartels’ argument on class biased economic voting (2008) it was necessary to use the same indicator than he uses, which is income. Second, despite we recognize that the class concept comprises other dimensions than income, and mainly occupation is crucial, we did not have comparable data on occupation status to track changes before and after the left reached the government.}
-
-The model specification includes two important control variables: ideology and party identification. Self-reported ideology would control for different weights that left and right wing voter adjudicate to the economy vs. redistribution when determining vote choice. Party identification with the incumbent party controls for the fact that those who identify with the incumbent are not only more likely to vote for the government, but also may have systematically different evaluations of the state of the economy. Lastly, we identify the evolution of relative importance of economic vs. class voting by interacting our main two independent variables with election year. By doing this we also control for elections fixed effects. 
+To clarify this strategy, Figure~\ref{fig:OA-dag} in the Supplementary Materials (Section~\ref{sec:dag}) presents a directed acyclic graph (DAG) summarizing the model structure. The DAG highlights the direct pathways from income, economic evaluations, ideology, and partisanship to vote choice, the endogenous associations among these predictors, and the role of election year as an exogenous modifier of all effects. This visualization mirrors the interaction structure of our empirical models and provides a conceptual roadmap for interpreting the estimated coefficients.
 
 
-\section*{Results} % (fold)
+
+\section*{Results}
 \label{sub:results}
-
-
-Figure 1 presents the main results. First, those who believe the economy is in a good shape are always more likely to vote for the incumbent. Although economic voting has been always present over the 25 years observed in our study, the size of economic voting has had a peak in 2004 after the largest economic crises in Uruguayan history in 2002. The estimated effect of economic voting in 2009 and 2014 are significantly lower than the amount of economic voting in 2004. However, the amount of economic voting in the last two elections is not statistically different than that of the first two elections (1989 and 1994).  This is puzzling because during the last decade, Uruguay, as well as most of the countries in the region, experienced an unprecedented economic boom. One possibility is that citizens punish governments for delivering crises more than what they reward them for delivering growth.
-Interestingly, class voting estimated with our log per capita income has increased over time. Moreover, in the last two elections, 2009 and 2014, income seems to be a significant predictor of vote choice. We interpret this result as an indication that at the end of first period that the left was in office, 2005-20010, class voting is first ever observed in Uruguayan politics. Other different ways of estimating class-voting such as quintiles income groups show that our results are robust. 
+ We begin by evaluating the persistence of economic voting over the 1989--2024 period. Appendix~\ref{sec:appendix-econ} and Figure~\ref{fig:appendix-econ} show that positive sociotropic evaluations remain a strong and consistently significant predictor of vote choice. Although the magnitude of economic voting fluctuates---peaking in 2004 in the aftermath of the 2002 crisis and declining somewhat in subsequent elections—it does not disappear. Full coefficient tables for both the incumbent-vote and left-vote models appear in Appendix~\ref{sec:appendix-tables}. Overall, Uruguay exhibits durable economic accountability throughout the democratic period. We now turn to our main interest: the evolution of class-based voting. Figure~\ref{fig:logit_quintile_effects_left} presents the estimated effects of income quintiles on support for the Left, relative to the richest quintile (Q5). These results come from the fully specified interaction model introduced in the research design section, and the corresponding tables are reported in the Supplementary Materials. To facilitate interpretation, we display the results as a \emph{threeparttable} that highlights confidence intervals and election-by-election patterns.
 
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.49\textwidth]{Figures/fig1-1.pdf}
-  \includegraphics[width=0.49\textwidth]{Figures/fig1-2.pdf}
-  \caption{Size of economic voting and class voting over time}
-  \label{fig:incomelog}
+\centering
+\begin{threeparttable}
+\includegraphics[width=0.9\textwidth]{Figures/figure_logit_quintiles_left.pdf}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Note:} Coefficients are from election-specific logistic regressions of Left vote on income quintiles, sociotropic economic evaluations, ideology, and incumbent partisanship. Confidence intervals are based on standard errors clustered by survey year. Shaded intervals in the figure correspond to 95\% confidence bands. Years in which a quintile coefficient excludes zero indicate statistically significant differences from the richest quintile.
+\end{tablenotes}
+\end{threeparttable}
+\caption{Effects of income quintiles (Q1--Q4, baseline Q5) on the probability of voting for the Left across Uruguayan elections, 1989--2024. Estimates are logit coefficients with 95\% confidence intervals. Positive (negative) coefficients indicate greater (lower) support for the Left compared to the richest quintile.}\label{fig:logit_quintile_effects_left}
 \end{figure}
 
 
+The pattern in Figure~\ref{fig:logit_quintile_effects_left} documents a clear cycle in Uruguay’s class cleavage: its \emph{emergence}, \emph{consolidation}, and \emph{attenuation}. From 1989 to 2004, class voting is effectively absent. Point estimates for Q1--Q4 are small and statistically indistinguishable from zero, indicating that income did not meaningfully structure support for the Left before its arrival in power.
 
-This emergence of class voting may reflect that either all income groups react to their position in the income distribution or just some income groups are performing class voting. The use of quintile income groups helps to identify which the voters become more influenced by their class identity. Figure 2 plots the effect of the first 4 quintiles over time. Notably, only the poorest 20\% of voters are those who were more likely to vote for the left government in 2009 and 2014.
+A sharp shift occurs after the Left's historic victory in 2004. In the 2009 and 2014 elections—two contests in which the \emph{Frente Amplio} governed as incumbent—coefficients for the poorest quintiles (Q1 and Q2) turn strongly positive and statistically significant. These groups became substantially more likely than high-income voters to support the Left. Middle-income voters (Q3) also exhibit positive shifts, though with less precision. This marks the consolidation of a redistributive alignment: lower-income voters disproportionately supported the Left during its period of governance.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.49\textwidth]{Figures/fig2-1.pdf}
-  \includegraphics[width=0.49\textwidth]{Figures/fig2-2.pdf}\\
-  \includegraphics[width=0.49\textwidth]{Figures/fig2-3.pdf}
-  \includegraphics[width=0.49\textwidth]{Figures/fig2-4.pdf}
-  \caption{Class voting across income groups}
-  \label{fig:quintiles}
-\end{figure}
+The pattern weakens but does not reverse after the right regained power in 2019. Estimates for 2019 and 2024 fall toward zero and often lose statistical significance—yet remain consistently above the pre-2004 baseline. These elections suggest that the class cleavage did not disappear with partisan turnover: poorer voters remained more favorable to the Left even when it was no longer the incumbent, but the magnitude of the effect was smaller than during periods of left-wing governance.
 
-Beyond the fact that poor voters are more likely to vote for the incumbent if the later implements redistribution in their favor, income groups may be sensible to the distributive dynamics of economic growth. This is, economic voting itself may depend on the degree to which top income earners are able to appropriate the benefits of economic growth. This opens the question of whether economic voting is conditional on class. We replicate Bartels' (2008) class-biased economic voting tests for Uruguay between 1989 and 2014. 
+To assess the substantive magnitude of these shifts, Appendix~\ref{sec:appendix-class} reports the associated changes in predicted probabilities (Figure~\ref{fig:probability_change_income_quintiles_left}). These results confirm the pattern observed in the coefficients. In 2009 and 2014, moving from Q5 to Q1 increases the probability of supporting the Left by sizable margins, whereas in 1989, 1994, and 1999 the same contrast yields effects close to zero. The 2019 and 2024 elections show intermediate values: class voting persists, but its strength declines compared to its peak under left incumbency.
 
-Figure 3 indicates that since the Left is in charge of the government, all income deciles groups grew significantly. This finding can explain why economic voting is significant. Nevertheless, class voting is only relevant among the poorest voters, which, by the way, are the ones that were favored with the highest growth rate during the period.
+Finally, Appendix~\ref{sec:appendix-class} also presents complementary models in which the outcome is support for the incumbent, regardless of ideology. These results corroborate the left-vote pattern. When the Left governs (2009, 2014), poor voters (Q1 and Q2) exhibit higher relative support for the incumbent; when the right governs (2019, 2024), these same groups withdraw support. This asymmetric pattern shows that class voting is driven not by incumbency per se, but by the ideological orientation of the incumbent party.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{Figures/gdp_growth_descriptives.pdf}
-  \caption{Economic growth among the bottom 10\% income group, top 10\%, and average growth}
-  \label{fig:label}
-\end{figure}
+Taken together, our results reveal a distinct temporal structure in Uruguay’s class cleavage. Economic voting remains a durable feature of electoral politics, but class voting emerges only after the Left's entry into government, peaks during its consolidation in power, and declines once partisan control shifts—while still remaining above historical levels. The Uruguayan case thus illustrates how distributive policy, partisan alternation, and voter alignment can dynamically reshape class cleavages over time.
 
 
-Our main intuition is that the middle class voters align their responsiveness to economic conditions with their preferences for redistribution. If pivotal actors select a redistributive government, then responsiveness to economic growth is likely to reflect inequality-aversion. If, however, median actors have selected a government not committed with redistribution, it is less likely that they punish relatively larger gains among the very rich. This is, class-biased economic voting should be driven by preferences of the median voter in the previous election. We test this intuition by collecting data on income growth among population deciles, among other explanatory variables. As in Bartels (2008) we first estimate a model of incumbent voting with income-group-specific income-growth measures along with average income growth. Second, we estimate class-biased economic voting for different income groups.  We perform this estimation for those election years in which the left won and retained office (2004, 2009, 2014); and for those election years in which Blancos or Colorados resulted elected. 
-
-Results from Table~\ref{tab:class-biased-top} indicate that before 2004, when Blancos and Colorados were in charge of the government, low and middle class voters reward the incumbent for average growth, and only middle-class voters reward the government for the growth among the top 10\% earners. This result confirms Bartels' argument (2008), and shows that when median voters have selected a government not committed with redistribution, they do not punish the incumbent that had generated relative larger gains for the rich. However, after the left took office in 2004, the class biased economic voting change its bias. Low- and middle-class voters still reward the incumbent for average growth, but  middle-class voters show inequality-aversion and punish the incumbent for the growth among the top 10\% earners. Poor voters remain indifferent towards inequality, which could be an effect of their lack of information. 
-
-
-% subsection results (end)   
-   % section daata_and_methods (end)   
-
-
-\section{Concluding Remarks} % (fold)
+\section*{Concluding Remarks} % (fold)
 \label{sec:concluding_remarks}
 Evidence for the Uruguayan case shows that in Latin America, after the shift towards the Left, there is an emerging class cleavage.  Class voting exists among poor voters after the first government of the leftist Frente Amplio, and coexists with the well- established economic voting. 
 
